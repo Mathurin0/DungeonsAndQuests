@@ -23,6 +23,7 @@ public class DungeonGenerator : MonoBehaviour
 	public GameObject[] tiles;
 	public GameObject[] chests;
 	public GameObject[] roomTypes;
+	public GameObject[] ennemies;
 	public int nbIterations;
 	public int maxTilePerIteration;
 	public int seed;
