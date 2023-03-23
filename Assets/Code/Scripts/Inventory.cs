@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<ItemData> content = new List<ItemData>();
-	[SerializeField] private List<int> contentCount = new List<int>();
+    [SerializeField] private List<ItemSlot> content = new List<ItemSlot>();
 	[SerializeField] private GameObject inventoryPanel;
     [SerializeField] private Transform inventorySlotsParent;
     [SerializeField] private Sprite emptySlotImage;
@@ -42,6 +41,54 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void AddItem(ItemData newItem, int count)
+	{
+		ItemSlot newItemSlot = new ItemSlot
+		{
+			item = newItem,
+			count = count,
+			id = content.Count
+		};
+
+		bool itemFound = false;
+		for (int i = 0; i < content.Count && !itemFound; i++)
+        {
+            if (content[i].item == newItem && content[i].count < content[i].item.stackAmount)
+			{
+                content[i].count += count;
+                itemFound = true;
+
+                if (content[i].count == 0)
+				{
+					content.Remove(content[i]);
+				}
+                else if (content[i].count < 0)
+				{
+                    RemoveItem(newItem, -content[i].count);
+					content.Remove(content[i]);
+				}
+                else if (content[i].count > content[i].item.stackAmount)
+                {
+                    AddItem(newItem, content[i].count - content[i].item.stackAmount);
+                    content[i].count = content[i].item.stackAmount;
+				}
+            }
+        }
+
+        if (!itemFound && count > 0)
+        {
+            content.Add(newItemSlot);
+        }
+		if (!itemFound && count < 0)
+		{
+
+        }
+    }
+
+    public void RemoveItem(ItemData newItem, int count) 
+    { 
+        AddItem(newItem, -count);
+    }
     private void OpenInventory()
     {
         inventoryPanel.SetActive(true);
@@ -63,12 +110,16 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < content.Count; i++)
         {
             Slot slot = inventorySlotsParent.GetChild(i).GetComponent<Slot>();
-            slot.item = content[i];
-            slot.itemImage.sprite = content[i].visual;
+            slot.item = content[i].item;
+            slot.itemImage.sprite = content[i].item.visual;
 
-            if (contentCount[i] > 1)
+            if (content[i].count > 1)
             {
-                slot.itemCount.text = contentCount[i].ToString();
+                slot.itemCount.text = content[i].count.ToString();
+                if (content[i].count == content[i].item.stackAmount)
+                {
+					// TODO : changer la couleur du texte (count)
+				}
             }
 		}
     }
