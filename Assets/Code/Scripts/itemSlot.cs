@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemSlot : MonoBehaviour
+
+[System.Serializable]
+public class ItemSlot : ScriptableObject
 {
     public ItemData item;
     public int count;

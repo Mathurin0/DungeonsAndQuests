@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e40e191480c20a46942a9303fe68f24, type: 3}
-  m_Name: IronHelmet
+  m_Name: SurvivalPants
   m_EditorClassIdentifier: 
-  itemName: Iron Helmet
-  description: A solit iron helmet.
-  stackAmount: 3
-  visual: {fileID: 21300000, guid: 358541a3db89a6f45956a5d4726d7312, type: 3}
-  prefab: {fileID: 520777343404722111, guid: 511d2b794869b0f48bd85657e805e765, type: 3}
+  itemName: Survival Pants
+  description: A simple pants.
+  stackAmount: 1
+  visual: {fileID: 21300000, guid: dff4124e641058b4589e05274e744e74, type: 3}
+  prefab: {fileID: 3672125914896112629, guid: a821c2258c34a3b4b95217e996a9542d, type: 3}
   itemType: 1
-  armorType: 0
+  armorType: 3

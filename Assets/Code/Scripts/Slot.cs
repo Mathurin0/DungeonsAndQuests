@@ -9,6 +9,7 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public ItemData item;
     public Image itemImage;
     public Text itemCount;
+    public int id;
 
     public void OnPointerEnter(PointerEventData eventData) 
     {
@@ -24,7 +25,16 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void OnClick()
-    {
-        
-    }
+	{
+		Inventory.instance.CloseActionPanel();
+		Inventory.instance.CloseCountPanel();
+		if (item != null)
+		{
+			Inventory.instance.OpenActionPanel(item, int.Parse(itemCount.text));
+		}
+        if (itemImage == null)
+        {
+            Inventory.instance.OpenActionPanel(null, 0);
+        }
+	}
 }
