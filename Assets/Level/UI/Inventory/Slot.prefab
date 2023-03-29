@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 5
 --- !u!1 &5693479376079311507
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,3 +307,4 @@ MonoBehaviour:
   item: {fileID: 0}
   itemImage: {fileID: 3661889803514179872}
   itemCount: {fileID: 8327214615782566125}
+  id: 0

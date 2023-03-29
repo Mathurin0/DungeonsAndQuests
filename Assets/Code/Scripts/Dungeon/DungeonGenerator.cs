@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 public class DungeonTile
 {
@@ -178,7 +173,7 @@ public class DungeonGenerator : MonoBehaviour
 						//}
 						//else
 						//{
-							GameObject roomType = Instantiate(roomTypes[0], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
+						    GameObject roomType = Instantiate(roomTypes[0], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 							roomType.transform.SetParent(tile.transform);
 
 							//// Populate Room

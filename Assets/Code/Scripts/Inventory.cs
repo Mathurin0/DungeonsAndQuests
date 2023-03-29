@@ -191,6 +191,22 @@ public class Inventory : MonoBehaviour
 
 		return count <= itemCountInInventory;
 	}
+	
+	public bool IsItemAddable(ItemData item, int count)
+	{
+		int itemPlacesInInventory = 0;
+
+		for (int i = 0; i < content.Count; i++)
+		{
+			if (content[i].item == item)
+			{
+				itemPlacesInInventory += item.stackAmount - content[i].count;
+			}
+		}
+		itemPlacesInInventory += (inventorySlotsParent.childCount - content.Count) * item.stackAmount;
+
+		return count <= itemPlacesInInventory;
+	}
 
 	private void OpenInventory()
     {

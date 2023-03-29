@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4953733456539392882}
   m_Layer: 6
   m_Name: IronChest
-  m_TagString: GameController
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,4 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba7ba5dadce7bfe4b99fb27ca1f1aab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData: {fileID: 0}
+  itemData: {fileID: 11400000, guid: 11c4b0c71a365ae4fb09bb6798e58ef9, type: 2}
