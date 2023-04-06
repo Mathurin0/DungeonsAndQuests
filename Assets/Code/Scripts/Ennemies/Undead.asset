@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78abb2d099456014d836b82f5f07b8dc, type: 3}
-  m_Name: IronHelmet
+  m_Name: Undead
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   ennemyName: Undead
   description: Dead who came back to life with a thirst of blood
   visual: {fileID: 0}
   prefab: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 3}
   health: 15
-  speed: 10
+  speed: 1
   moneyDropped: 10
   ExpDropped: 15
   attackRange: 1

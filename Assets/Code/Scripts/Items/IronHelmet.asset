@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: IronHelmet
   m_EditorClassIdentifier: 
   itemName: Iron Helmet
-  description: A solit iron helmet
-  stackAmount: 1
+  description: A solit iron helmet.
+  stackAmount: 3
   visual: {fileID: 21300000, guid: 358541a3db89a6f45956a5d4726d7312, type: 3}
   prefab: {fileID: 520777343404722111, guid: 511d2b794869b0f48bd85657e805e765, type: 3}
   itemType: 1
