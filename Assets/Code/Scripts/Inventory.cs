@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
 	[SerializeField] private GameObject dropItemButton;
 	[SerializeField] private GameObject destroyItemButton;
 	[SerializeField] private GameObject actionPanel;
-	[SerializeField] private ArmorsLibrary armorLibrary;
+	[SerializeField] private ArmorsLibrary EquipmentLibrary;
     [SerializeField] private GameObject dropPoint;
 	private ItemSlot currentItem;
 	public int remainingItemsToAddOrDeleteCount;
@@ -35,11 +35,21 @@ public class Inventory : MonoBehaviour
     private string currentAction = "";
 
 	[Header("Armures")]
-	[SerializeField] private ItemData currentBoots = null;
-	[SerializeField] private ItemData currentChest = null;
-	[SerializeField] private ItemData currentGloves = null;
-	[SerializeField] private ItemData currentHelmet = null;
-	[SerializeField] private ItemData currentPants = null;
+	[SerializeField] private EquipmentSlot currentBoots = null;
+	[SerializeField] private EquipmentSlot currentChest = null;
+	[SerializeField] private EquipmentSlot currentGloves = null;
+	[SerializeField] private EquipmentSlot currentHelmet = null;
+	[SerializeField] private EquipmentSlot currentPants = null;
+	[SerializeField] private EquipmentSlot currentWeapon = null;
+
+	[Header("Slots Visuals")]
+	[SerializeField] private Sprite BootsSlot;
+	[SerializeField] private Sprite ChestSlot;
+	[SerializeField] private Sprite GlovesSlot;
+	[SerializeField] private Sprite HelmetSlot;
+	[SerializeField] private Sprite PantsSlot;
+	[SerializeField] private Sprite WeaponSlot;
+	[SerializeField] private Sprite ClassicSlot;
 
 	public static Inventory instance;
 
@@ -61,8 +71,10 @@ public class Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.G))
         {
-            AddItem(allItems[1], 1);
-			AddItem(allItems[6], 1);
+			foreach (var item in allItems)
+			{
+				AddItem(item, 1);
+			}
 		}
     }
 
@@ -167,7 +179,7 @@ public class Inventory : MonoBehaviour
 		if (count > 0 && !itemFullyRemoved)
 		{
 			remainingItemsToAddOrDeleteCount = count;
-            print(count + " " + itemToRemove.name + " n'ont pas été supprimés de l'inventaire");
+            print(count + " " + itemToRemove.name + " n'ont pas été supprimés de l'inventaire"); 
 			RefreshInventoryContent();
 			return false;
 		}
@@ -257,13 +269,11 @@ public class Inventory : MonoBehaviour
 
     public void EquipItemButton() 
     {
-        print("Equipement de : " + currentItem.item.itemName);
-
-        ArmorsLibraryItem armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentItem.item).First(); 
+        ArmorsLibraryItem EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentItem.item).First(); 
         
-        if (armorLibratyItem != null)
+        if (EquipmentLibratyItem != null)
 		{
-			armorLibratyItem.itemPrefab.SetActive(true);
+			EquipmentLibratyItem.itemPrefab.SetActive(true);
 		}
         else
         {
@@ -274,52 +284,73 @@ public class Inventory : MonoBehaviour
 
 		switch (currentItem.item.armorType)
 		{
-			case ArmorType.Head:
-				if (currentHelmet != null)
+			case EquipmentType.Head:
+				if (currentHelmet.item != null)
 				{
-					armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentHelmet).First();
-					armorLibratyItem.itemPrefab.SetActive(false);
-					AddItem(currentHelmet, 1);
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentHelmet.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentHelmet.item, 1);
 				}
-				currentHelmet = currentItem.item;
+				currentHelmet.item = currentItem.item;
+				currentHelmet.itemImage.sprite = currentItem.item.visual;
+				currentHelmet.GetComponentInParent<Image>().sprite = ClassicSlot;
 				break;
-			case ArmorType.Chest:
-				if (currentChest != null)
+			case EquipmentType.Chest:
+				if (currentChest.item != null)
 				{
-					armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentChest).First();
-					armorLibratyItem.itemPrefab.SetActive(false);
-					AddItem(currentChest, 1);
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentChest.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentChest.item, 1);
 				}
-				currentChest = currentItem.item;
+				currentChest.item = currentItem.item;
+				currentChest.itemImage.sprite = currentItem.item.visual;
+				currentChest.GetComponentInParent<Image>().sprite = ClassicSlot;
 				break;
-			case ArmorType.Hands:
-				if (currentGloves != null)
+			case EquipmentType.Hands:
+				if (currentGloves.item != null)
 				{
-					armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentGloves).First();
-					armorLibratyItem.itemPrefab.SetActive(false);
-					AddItem(currentGloves, 1);
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentGloves.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentGloves.item, 1);
 				}
-				currentGloves = currentItem.item;
+				currentGloves.item = currentItem.item;
+				currentGloves.itemImage.sprite = currentItem.item.visual;
+				currentGloves.GetComponentInParent<Image>().sprite = ClassicSlot;
 				break;
-			case ArmorType.Legs:
-				if (currentPants != null)
+			case EquipmentType.Legs:
+				if (currentPants.item != null)
 				{
-					armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentPants).First();
-					armorLibratyItem.itemPrefab.SetActive(false);
-					AddItem(currentPants, 1);
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentPants.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentPants.item, 1);
 				}
-				currentPants = currentItem.item;
+				currentPants.item = currentItem.item;
+				currentPants.itemImage.sprite = currentItem.item.visual;
+				currentPants.GetComponentInParent<Image>().sprite = ClassicSlot;
 				break;
-			case ArmorType.Feet:
-				if (currentBoots != null)
+			case EquipmentType.Feet:
+				if (currentBoots.item != null)
 				{
-					armorLibratyItem = armorLibrary.content.Where(elem => elem.itemData == currentBoots).First();
-					armorLibratyItem.itemPrefab.SetActive(false);
-					AddItem(currentBoots, 1);
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentBoots.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentBoots.item, 1);
 				}
-				currentBoots = currentItem.item;
+				currentBoots.item = currentItem.item;
+				currentBoots.itemImage.sprite = currentItem.item.visual;
+				currentBoots.GetComponentInParent<Image>().sprite = ClassicSlot;
 				break;
-			case ArmorType.Nothing:
+			case EquipmentType.Weapon:
+				if (currentWeapon.item != null)
+				{
+					EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentWeapon.item).First();
+					EquipmentLibratyItem.itemPrefab.SetActive(false);
+					AddItem(currentWeapon.item, 1);
+				}
+				currentWeapon.item = currentItem.item;
+				currentWeapon.itemImage.sprite = currentItem.item.visual;
+				currentWeapon.GetComponentInParent<Image>().sprite = ClassicSlot;
+				break;
+			case EquipmentType.Nothing:
 				print("This is not an armor");
 				break;
 			default:
@@ -329,6 +360,72 @@ public class Inventory : MonoBehaviour
 
 		CloseActionPanel();
     }
+
+	public void UnequipItemButton(ItemData item)
+	{
+		ArmorsLibraryItem EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == item).First();
+
+		if (EquipmentLibratyItem != null)
+		{
+			EquipmentLibratyItem.itemPrefab.SetActive(true);
+		}
+		else
+		{
+			Debug.LogError("L'équipement : " + item.itemName + " n'existe pas dans la librairie d'armures");
+		}
+
+		switch (item.armorType)
+		{
+			case EquipmentType.Head:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentHelmet.itemImage.sprite = emptySlotImage;
+				currentHelmet.GetComponentInParent<Image>().sprite = HelmetSlot;
+				AddItem(item, 1);
+				currentHelmet.item = null;
+				break;
+			case EquipmentType.Chest:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentChest.itemImage.sprite = emptySlotImage;
+				currentChest.GetComponentInParent<Image>().sprite = ChestSlot;
+				AddItem(item, 1);
+				currentChest.item = null;
+				break;
+			case EquipmentType.Hands:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentGloves.itemImage.sprite = emptySlotImage;
+				currentGloves.GetComponentInParent<Image>().sprite = GlovesSlot;
+				AddItem(item, 1);
+				currentGloves.item = null;
+				break;
+			case EquipmentType.Legs:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentPants.itemImage.sprite = emptySlotImage;
+				currentPants.GetComponentInParent<Image>().sprite = PantsSlot;
+				AddItem(item, 1);
+				currentPants.item = null;
+				break;
+			case EquipmentType.Feet:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentBoots.itemImage.sprite = emptySlotImage;
+				currentBoots.GetComponentInParent<Image>().sprite = BootsSlot;
+				AddItem(item, 1);
+				currentBoots.item = null;
+				break;
+			case EquipmentType.Weapon:
+				EquipmentLibratyItem.itemPrefab.SetActive(false);
+				currentWeapon.itemImage.sprite = emptySlotImage;
+				currentWeapon.GetComponentInParent<Image>().sprite = WeaponSlot;
+				AddItem(item, 1);
+				currentWeapon.item = null;
+				break;
+			case EquipmentType.Nothing:
+				print("This is not an armor");
+				break;
+			default:
+				print("Le type d'armure : " + currentItem.item.armorType + "n'existe pas");
+				break;
+		}
+	}
 
     public void DropItemButton()
 	{
@@ -468,11 +565,10 @@ public class Inventory : MonoBehaviour
 
 	public void OpenActionPanel(ItemData item, int count)
 	{
-		if (item == null && count == 0) //Patch récupération du slot 0 impossible
+		if (item == null && count == 0 && content.Count != 0) //Patch récupération du slot 0 impossible
 		{
 			item = content[0].item;
 			count = content[0].count;
-			print("click sur le slot 0");
 		}
         else if (item == null)
         {
@@ -494,7 +590,7 @@ public class Inventory : MonoBehaviour
                 useItemButton.SetActive(false);
                 equipButton.SetActive(false);
                 break;
-            case ItemType.Armor:
+            case ItemType.Equipment:
                 useItemButton.SetActive(false);
                 equipButton.SetActive(true);
                 break;

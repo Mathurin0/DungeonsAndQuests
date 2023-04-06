@@ -10,21 +10,22 @@ public class ItemData : ScriptableObject
     public GameObject prefab;
 
     public ItemType itemType;
-    public ArmorType armorType;
+    public EquipmentType armorType;
 }
 
 public enum ItemType
 {
     Ressource,
-    Armor,
+    Equipment,
     Consumable
 }
-public enum ArmorType
+public enum EquipmentType
 {
     Head,
     Chest,
     Hands,
     Legs,
     Feet,
+    Weapon,
     Nothing
 }

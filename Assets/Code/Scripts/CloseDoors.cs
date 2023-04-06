@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class CloseDoors : MonoBehaviour
 {
+	[SerializeField] private GameObject ennemiesContainer;
+
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.O))
+		if (ennemiesContainer.transform.childCount == 0)
 		{
-			MoveGrids(2.5f); //TODO : remplacer par le clean de la salle
+			MoveGrids(2.5f);
 		}
 	}
 
@@ -15,6 +17,8 @@ public class CloseDoors : MonoBehaviour
 		if (other.CompareTag("Player"))
 		{
 			MoveGrids(0);
+
+			DungeonGenerator.instance.GenerateEnnemies(transform.parent);
 		}
 	}
 

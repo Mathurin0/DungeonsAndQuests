@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DungeonTile
@@ -27,11 +28,24 @@ public class DungeonGenerator : MonoBehaviour
 	private int width, height, origineX, origineY;
 	private List<DungeonTile> dungeonTiles;
 	private List<string> directions;
+	private GameObject ennemiesContainer;
 	int[,] dungeonArea;
+
+	public static DungeonGenerator instance;
+
+	private void Awake()
+	{
+		instance = this;
+	}
 
 	void Start()
 	{
 		GenerateDungeon();
+	}
+
+	private void Update()
+	{
+		
 	}
 
 	private void GenerateDungeon()
@@ -162,6 +176,19 @@ public class DungeonGenerator : MonoBehaviour
 
 					if (x != origineX || y != origineY)
 					{
+						int randomRoom = UnityEngine.Random.Range(1, 100);
+
+						if (randomRoom <= 80) //Fight Room
+						{
+							GameObject roomType = Instantiate(roomTypes[2], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
+							roomType.transform.SetParent(tile.transform);
+						}
+						else //Empty Room
+						{
+							GameObject roomType = Instantiate(roomTypes[1], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
+							roomType.transform.SetParent(tile.transform);
+						}
+
 						//int[] oneDoorRooms = new int[] { 1, 2, 4, 8 };
 						//if (oneDoorRooms.Contains(tab[x, y]))
 						//{
@@ -171,30 +198,35 @@ public class DungeonGenerator : MonoBehaviour
 
 						//	// Shop de dernier recours
 						//}
-						//else
-						//{
-						    GameObject roomType = Instantiate(roomTypes[0], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
-							roomType.transform.SetParent(tile.transform);
-
-							//// Populate Room
-							//int randomRoomType = UnityEngine.Random.Range(0, 3);
-
-							//// Si c'est une salle de chests
-							//if (randomRoomType == 0)
-							//{
-							//	float chestPositionX = (float)((x - origineX) * 28 + 2.5);
-							//	GameObject chest = Instantiate(chests[1], new Vector3(chestPositionX, 0, (y - origineY) * 28), Quaternion.identity);
-							//	chest.transform.SetParent(tile.transform);
-							//}
-						//}
 					}
-					else
+					else //Starting Room
 					{
-						// TODO : Faire une salle spéciale pour la salle de départ
 						GameObject roomType = Instantiate(roomTypes[0], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 						roomType.transform.SetParent(tile.transform);
 					}
 				}
+			}
+		}
+	}
+
+	public void GenerateEnnemies(Transform room)
+	{
+		int randomEnnemy = UnityEngine.Random.Range(0, ennemies.Count() - 1);
+
+		for (int i = 0; i < room.transform.childCount; i++)
+		{
+			if (room.transform.GetChild(i).gameObject.name.Contains("EnnemiesContainer"))
+			{
+				ennemiesContainer = room.transform.GetChild(i).gameObject;
+			}
+		}
+
+		for (int i = 0; i < room.transform.childCount; i++)
+		{
+			if (room.transform.GetChild(i).gameObject.name.Contains("EnnemySpawnPoint"))
+			{
+				GameObject ennemy = Instantiate(ennemies[randomEnnemy], room.transform.GetChild(i).transform);
+				ennemy.transform.SetParent(ennemiesContainer.transform);
 			}
 		}
 	}

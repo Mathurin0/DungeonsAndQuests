@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Ennemy : MonoBehaviour
@@ -6,7 +7,11 @@ public class Ennemy : MonoBehaviour
 	private Vector3 velocity;
 	public EnnemyData ennemyData;
 	[SerializeField] private CharacterController ennemyController;
+	[SerializeField] private AnimationClip attackAnimation;
 	public int ennemySpeed;
+	private bool canEnnemyAttack = true;
+	private bool isAnimationShorterThanAttackCooldown = false;
+	private float y;
 
 	void Start()
 	{
@@ -16,23 +21,35 @@ public class Ennemy : MonoBehaviour
 
 	void Update()
 	{
-		transform.LookAt(player);
-
+		y = transform.position.y;
 		Vector3 direction = player.transform.position - transform.position;
 		velocity = direction * ennemySpeed;
+		velocity.y = 0;
 		direction.Normalize();
 		ennemyController.Move(velocity * Time.deltaTime);
 
-		if (Vector3.Distance(transform.position, player.position) < ennemyData.attackRange)
+		ennemyController.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+		transform.LookAt(player);
+
+		if (Vector3.Distance(transform.position, player.position) < ennemyData.attackRange && canEnnemyAttack)
 		{
-			AttackPlayer();
+			StartCoroutine(AttackPlayer());
 		}
 	}
 
-	public void AttackPlayer()
+	public IEnumerator AttackPlayer()
 	{
 		ennemySpeed = 0;
+		canEnnemyAttack = false;
 		gameObject.GetComponent<Animator>().Play("Attack");
+		yield return new WaitForSeconds(ennemyData.attackCooldown);
+		if (isAnimationShorterThanAttackCooldown)
+		{
+			ennemySpeed = ennemyData.speed;
+			gameObject.GetComponent<Animator>().Play("Walk");
+		}
+		canEnnemyAttack = true;
 	}
 
 	public void InflictDamagesToPlayer()
@@ -42,6 +59,14 @@ public class Ennemy : MonoBehaviour
 
 	public void ReEnableEnnemyMovement()
 	{
-		ennemySpeed = ennemyData.speed;
+		if (canEnnemyAttack)
+		{
+			ennemySpeed = ennemyData.speed;
+		}
+		else
+		{
+			gameObject.GetComponent<Animator>().CrossFade("Idle", 0.2f);
+			isAnimationShorterThanAttackCooldown = true;
+		}
 	}
 }

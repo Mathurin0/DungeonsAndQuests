@@ -32467,7 +32467,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1
+  - time: 0.6
     functionName: ReEnableEnnemyMovement
     data: 
     objectReferenceParameter: {fileID: 11500000, guid: d9ffd0a2894d7184887459d14b6bcbc7, type: 3}

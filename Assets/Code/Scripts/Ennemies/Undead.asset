@@ -20,7 +20,7 @@ MonoBehaviour:
   speed: 1
   moneyDropped: 10
   ExpDropped: 15
-  attackRange: 0.8
+  attackRange: 1
   attackCooldown: 2
   ennemyType: 0
   attackType: 0
