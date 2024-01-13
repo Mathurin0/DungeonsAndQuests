@@ -16,11 +16,11 @@ MonoBehaviour:
   description: Dead who came back to life with a thirst of blood
   visual: {fileID: 0}
   prefab: {fileID: 165424, guid: 9f4313a771e05c64d8da7ae6bd19a19f, type: 3}
-  health: 15
-  speed: 1
+  health: 40
   moneyDropped: 10
   ExpDropped: 15
   attackRange: 1
   attackCooldown: 2
+  speed: 0.5
   ennemyType: 0
   attackType: 0

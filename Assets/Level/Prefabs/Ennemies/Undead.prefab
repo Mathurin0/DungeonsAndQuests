@@ -628,9 +628,10 @@ GameObject:
   - component: {fileID: 1817952577169838343}
   - component: {fileID: 3548453125695097030}
   - component: {fileID: 9138720452671017396}
+  - component: {fileID: 8714673472815893111}
   m_Layer: 7
   m_Name: Undead
-  m_TagString: Untagged
+  m_TagString: Ennemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -687,7 +688,10 @@ MonoBehaviour:
   ennemyData: {fileID: 11400000, guid: fb41c325cd14de9429bc1f2843a42f72, type: 2}
   ennemyController: {fileID: 3548453125695097030}
   attackAnimation: {fileID: 7400000, guid: 1fc39c37ef49990448d906d00f43bac2, type: 3}
+  agent: {fileID: 8714673472815893111}
+  target: {fileID: 0}
   ennemySpeed: 0
+  ennemyHealth: 0
 --- !u!143 &3548453125695097030
 CharacterController:
   m_ObjectHideFlags: 0
@@ -722,6 +726,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!195 &8714673472815893111
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165424}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &165938
 GameObject:
   m_ObjectHideFlags: 0
