@@ -304,7 +304,6 @@ public class Inventory : MonoBehaviour
 
     public void EquipItemButton()
     {
-		Debug.Log("EquipItem");
         ArmorsLibraryItem EquipmentLibratyItem = EquipmentLibrary.content.Where(elem => elem.itemData == currentItem.item).First(); 
         
         if (EquipmentLibratyItem != null)
@@ -382,7 +381,7 @@ public class Inventory : MonoBehaviour
 					{
 						if (thirdWeapon.item != null)
 						{
-							Debug.Log("Tous les slots d'armes sont pleins"); //TODO : changer par une erreur affichée à l'écran
+							Debug.LogWarning("Tous les slots d'armes sont pleins"); //TODO : changer par une erreur affichée à l'écran
 							break;
 						}
 						else

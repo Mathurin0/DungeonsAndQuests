@@ -34,7 +34,6 @@ public class AimBehaviourBasic : GenericBehaviour
 		// Attaque
 		if (Input.GetMouseButton(0) && !attacking && SceneManager.GetActiveScene().name == "Dungeon")
 		{
-			Debug.Log("Start coroutine");
 			StartCoroutine(Attack());
 		}
 
@@ -62,7 +61,6 @@ public class AimBehaviourBasic : GenericBehaviour
 			if (hit.collider.CompareTag("Ennemy"))
 			{
 				hit.collider.GetComponent<Ennemy>().ennemyHealth -= 20;
-				Debug.Log("Ennemy health : " + hit.collider.GetComponent<Ennemy>().ennemyHealth);
 				if (hit.collider.GetComponent<Ennemy>().ennemyHealth <= 0)
 				{
 					Destroy(hit.transform.gameObject);
@@ -70,7 +68,6 @@ public class AimBehaviourBasic : GenericBehaviour
 			}
 		}
 		yield return new WaitForSeconds((float).5);
-		Debug.Log("Coroutine after wait");
 		attacking = false;
 		playerAnimator.ResetTrigger("Attack");
 	}

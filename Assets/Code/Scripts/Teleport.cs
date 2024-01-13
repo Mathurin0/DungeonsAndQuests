@@ -17,7 +17,6 @@ public class Teleport : MonoBehaviour
 	{
 		if (collision.CompareTag("Player"))
 		{
-			Debug.Log("teleport");
 			StartCoroutine(loadScene());
 		}
 	}

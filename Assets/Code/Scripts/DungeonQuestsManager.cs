@@ -88,10 +88,9 @@ public class DungeonQuestsManager : MonoBehaviour
     {
 		System.Random seedGenerator = new();
 		int seed = seedGenerator.Next();
-		UnityEngine.Random.InitState(seed);
+		Random.InitState(seed);
 
-		int rand = UnityEngine.Random.Range(0, 100);
-		Debug.Log(rand.ToString());
+		int rand = Random.Range(0, 100);
 
 		switch (rand)
 		{
