@@ -25,7 +25,7 @@ public class PickUpBehaviour : MonoBehaviour
 			}
             else
             {
-                Debug.Log(item.itemData.itemName + " can't be added to Inventory");
+                Debug.LogWarning(item.itemData.itemName + " can't be added to Inventory");
                 return;
             }
         }

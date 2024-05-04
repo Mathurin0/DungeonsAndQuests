@@ -6,8 +6,8 @@ public class EnnemyData : ScriptableObject
 	public string ennemyName, description;
 	public Sprite visual;
 	public GameObject prefab;
-	public int health, speed, moneyDropped, ExpDropped;
-	public float attackRange, attackCooldown;
+	public int health, moneyDropped, ExpDropped;
+	public float attackRange, attackCooldown, speed;
 
 	public EnnemyType ennemyType;
 	public FightingType attackType;

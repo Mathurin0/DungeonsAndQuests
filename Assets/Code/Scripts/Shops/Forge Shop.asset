@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00b5cbf85f3fbf499c90b7d4c1f1830, type: 3}
+  m_Name: Forge Shop
+  m_EditorClassIdentifier: 
+  itemList:
+  - {fileID: 11400000, guid: e51363fe620b1144fa964e6ef7f1e6db, type: 2}
+  - {fileID: 11400000, guid: 8f2287c56634ca443a8c2123e2e4cc28, type: 2}
+  - {fileID: 11400000, guid: f6f00c0dfff3afb489860ed23fd7321d, type: 2}
+  - {fileID: 11400000, guid: 013979ffb4a2f7b4493143fe2aae9e05, type: 2}
+  - {fileID: 11400000, guid: 38972e3e501fa654fb9f269d25bb2941, type: 2}
+  - {fileID: 11400000, guid: 11c4b0c71a365ae4fb09bb6798e58ef9, type: 2}
+  - {fileID: 11400000, guid: 26ecf17a54019764d8715f932edb5c16, type: 2}
+  - {fileID: 11400000, guid: c8146cb9d1b20c8478c3997102b0cdc4, type: 2}
+  - {fileID: 11400000, guid: 8e8464ca6458d0444aeb1d4356b865ec, type: 2}
+  - {fileID: 11400000, guid: 98eda6f2688df87458abc0859b7d940b, type: 2}
+  - {fileID: 11400000, guid: 73c0b8c0b69e03646952fbd9a1ec2a04, type: 2}
+  - {fileID: 11400000, guid: c2f9a394bec139d499c1679e842d195a, type: 2}
+  shopName: Forge

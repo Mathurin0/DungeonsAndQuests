@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Ennemy : MonoBehaviour
 {
@@ -8,8 +9,11 @@ public class Ennemy : MonoBehaviour
 	public EnnemyData ennemyData;
 	[SerializeField] private CharacterController ennemyController;
 	[SerializeField] private AnimationClip attackAnimation;
-	public int ennemySpeed;
-	private bool canEnnemyAttack = true;
+	[SerializeField] private NavMeshAgent agent;
+	[SerializeField] private Transform target;
+	public float ennemySpeed;
+	public int ennemyHealth;
+	private bool isAttacking = false;
 	private bool isAnimationShorterThanAttackCooldown = false;
 	private float y;
 
@@ -17,6 +21,7 @@ public class Ennemy : MonoBehaviour
 	{
 		player = GameObject.FindWithTag("Player").transform;
 		ennemySpeed = ennemyData.speed;
+		ennemyHealth = ennemyData.health;
 	}
 
 	void Update()
@@ -32,16 +37,20 @@ public class Ennemy : MonoBehaviour
 
 		transform.LookAt(player);
 
-		if (Vector3.Distance(transform.position, player.position) < ennemyData.attackRange && canEnnemyAttack)
+		if (Vector3.Distance(transform.position, player.position) < ennemyData.attackRange && !isAttacking)
 		{
 			StartCoroutine(AttackPlayer());
+		}
+		if (this.velocity == new Vector3(0, 0, 0) && !isAttacking)
+		{
+			gameObject.GetComponent<Animator>().Play("Idle");
 		}
 	}
 
 	public IEnumerator AttackPlayer()
 	{
 		ennemySpeed = 0;
-		canEnnemyAttack = false;
+		isAttacking = true;
 		gameObject.GetComponent<Animator>().Play("Attack");
 		yield return new WaitForSeconds(ennemyData.attackCooldown);
 		if (isAnimationShorterThanAttackCooldown)
@@ -49,7 +58,7 @@ public class Ennemy : MonoBehaviour
 			ennemySpeed = ennemyData.speed;
 			gameObject.GetComponent<Animator>().Play("Walk");
 		}
-		canEnnemyAttack = true;
+		isAttacking = false;
 	}
 
 	public void InflictDamagesToPlayer()
@@ -59,7 +68,7 @@ public class Ennemy : MonoBehaviour
 
 	public void ReEnableEnnemyMovement()
 	{
-		if (canEnnemyAttack)
+		if (!isAttacking)
 		{
 			ennemySpeed = ennemyData.speed;
 		}

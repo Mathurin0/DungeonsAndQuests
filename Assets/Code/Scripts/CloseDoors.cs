@@ -1,8 +1,11 @@
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class CloseDoors : MonoBehaviour
 {
 	[SerializeField] private GameObject ennemiesContainer;
+	[SerializeField] private NavMeshSurface surface;
 
 	private void Update()
 	{
@@ -18,7 +21,15 @@ public class CloseDoors : MonoBehaviour
 		{
 			MoveGrids(0);
 
-			DungeonGenerator.instance.GenerateEnnemies(transform.parent);
+			DungeonGenerator.instance.currentRoom = gameObject.transform.parent.parent.GetComponent<Room>();
+
+			if (DungeonGenerator.instance.currentRoom != null && !DungeonGenerator.instance.currentRoom.hasBeenOpened)
+			{
+				DungeonGenerator.instance.currentRoom.hasBeenOpened = true;
+				DungeonGenerator.instance.GenerateEnnemies(transform.parent, DungeonGenerator.instance.currentRoom);
+			}
+
+			surface.BuildNavMesh();
 		}
 	}
 

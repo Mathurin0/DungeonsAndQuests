@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // MoveBehaviour inherits from GenericBehaviour. This class corresponds to basic walk and run behaviour, it is the default behaviour.
 public class MoveBehaviour : GenericBehaviour
 {
@@ -19,6 +22,9 @@ public class MoveBehaviour : GenericBehaviour
 
 	public bool canMove = true;
 
+	public static MoveBehaviour instance;
+
+
 	// Start is always called after any Awake functions.
 	void Start()
 	{
@@ -31,6 +37,14 @@ public class MoveBehaviour : GenericBehaviour
 		behaviourManager.SubscribeBehaviour(this);
 		behaviourManager.RegisterDefaultBehaviour(this.behaviourCode);
 		speedSeeker = runSpeed;
+
+		if (instance != null)
+		{
+			Debug.LogError("Il y a plus d'une instance de Movebehaviour dans la scène");
+			return;
+		}
+
+		instance = this;
 	}
 
 	// Update is used to set features regardless the active behaviour.

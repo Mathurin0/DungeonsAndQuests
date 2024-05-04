@@ -19,7 +19,10 @@ public class EquipmentSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		ToolTipSystem.instance.Hide();
+		if (item != null)
+		{
+			ToolTipSystem.instance.Hide();
+		}
 	}
 
 	public void UnequipButton()

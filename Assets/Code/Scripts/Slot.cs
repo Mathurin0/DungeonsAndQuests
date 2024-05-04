@@ -16,13 +16,16 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (item != null)
         {
             ToolTipSystem.instance.Show(item.description, item.itemName);
-        }
-    }
+		}
+	}
 
     public void OnPointerExit(PointerEventData eventData)
-    {
-        ToolTipSystem.instance.Hide();
-    }
+	{
+		if (item != null)
+		{
+			ToolTipSystem.instance.Hide();
+		}
+	}
 
     public void OnClick()
 	{
@@ -30,11 +33,11 @@ public class Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		Inventory.instance.CloseCountPanel();
 		if (item != null)
 		{
-			Inventory.instance.OpenActionPanel(item, int.Parse(itemCount.text));
+			Inventory.instance.OpenActionPanel(id);
 		}
-        if (itemImage == null)
-        {
-            Inventory.instance.OpenActionPanel(null, 0);
-        }
+		else if (id == 0 && Inventory.instance.content.Count > 0)
+		{
+			Inventory.instance.OpenActionPanel(id);
+		}
 	}
 }

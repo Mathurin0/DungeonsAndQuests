@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00b5cbf85f3fbf499c90b7d4c1f1830, type: 3}
+  m_Name: Potions Shop
+  m_EditorClassIdentifier: 
+  itemList:
+  - {fileID: 11400000, guid: bd45c0648c1f3e14d92684f6def02c17, type: 2}
+  - {fileID: 11400000, guid: ae11ed6f1118b144699e196cea6f1cdf, type: 2}
+  - {fileID: 11400000, guid: c232ccbc369a2534c8007999d7b3f7d5, type: 2}
+  - {fileID: 11400000, guid: 0c3eef4bbd004e5419207fde30903392, type: 2}
+  shopName: Potions Shop

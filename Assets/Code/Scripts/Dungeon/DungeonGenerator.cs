@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DungeonTile
 {
 	public int x;
 	public int y;
+	public string directions;
 
 	public DungeonTile(int newX, int newY)
 	{
@@ -20,9 +22,11 @@ public class DungeonGenerator : MonoBehaviour
 	public GameObject[] chests;
 	public GameObject[] roomTypes;
 	public GameObject[] ennemies;
+	public Room[] rooms;
 	public int nbIterations;
 	public int maxTilePerIteration;
 	public int seed;
+	public Room currentRoom;
 
 
 	private int width, height, origineX, origineY;
@@ -35,6 +39,12 @@ public class DungeonGenerator : MonoBehaviour
 
 	private void Awake()
 	{
+		if (instance != null)
+		{
+			Debug.LogError("Il y a plus d'une instance de DungeonGenerator dans la scène");
+			return;
+		}
+
 		instance = this;
 	}
 
@@ -67,6 +77,7 @@ public class DungeonGenerator : MonoBehaviour
 		for (int i = 0; i < nbIterations; i++)
 		{
 			List<DungeonTile> rooms = new();
+
 			foreach(DungeonTile dungeonTile in dungeonTiles) 
 			{
 				List<string> directionsWhereGenerate = new(directions);
@@ -149,13 +160,13 @@ public class DungeonGenerator : MonoBehaviour
 			{
 				if (tab[x, y] == 1)
 				{
-					if (tab[x, y + 1] == 1) {indexes[x, y] += 8;}
+					if (tab[x, y + 1] == 1) {indexes[x, y] += 8;}   //North
 
-					if (tab[x + 1, y] == 1) {indexes[x, y] += 4;}
+					if (tab[x + 1, y] == 1) {indexes[x, y] += 4;}   //East
 
-					if (tab[x, y - 1] == 1) {indexes[x, y] += 2;}
+					if (tab[x, y - 1] == 1) {indexes[x, y] += 2;}   //South
 
-					if (tab[x - 1, y] == 1) {indexes[x, y] += 1;}
+					if (tab[x - 1, y] == 1) {indexes[x, y] += 1;}   //West
 				} 
 			}
 		}
@@ -165,6 +176,11 @@ public class DungeonGenerator : MonoBehaviour
 
 	private void InstanciateDungeonTiles(int[,] tab)
 	{
+		List<GameObject> oneDoorRooms = new List<GameObject>();
+		List<int> xOneDoorRooms = new List<int>();
+		List<int> yOneDoorRooms = new List<int>();
+		int[] oneDoorValue = new int[] { 1, 2, 4, 8 };
+
 		for (int x = 0; x < width; x++)
 		{
 			for (int y = 0; y < height; y++)
@@ -173,51 +189,70 @@ public class DungeonGenerator : MonoBehaviour
 				{
 					GameObject tile = Instantiate(tiles[tab[x, y]], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 					tile.transform.SetParent(transform);
+					currentRoom = tile.GetComponent<Room>();              //TODO : rédupérer les infos de la salle 
+					if (oneDoorValue.Contains(tab[x, y]))
+					{
+						oneDoorRooms.Add(tile);
+						xOneDoorRooms.Add(x);
+						yOneDoorRooms.Add(y);
+					}
+
+					rooms.Append(currentRoom);
 
 					if (x != origineX || y != origineY)
 					{
 						int randomRoom = UnityEngine.Random.Range(1, 100);
 
-						if (randomRoom <= 80) //Fight Room
+						if (randomRoom <= 70) //Fight Room
 						{
 							GameObject roomType = Instantiate(roomTypes[2], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 							roomType.transform.SetParent(tile.transform);
+							currentRoom.containReward = true;
 						}
 						else //Empty Room
 						{
 							GameObject roomType = Instantiate(roomTypes[1], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 							roomType.transform.SetParent(tile.transform);
+							currentRoom.containReward = false;
 						}
-
-						//int[] oneDoorRooms = new int[] { 1, 2, 4, 8 };
-						//if (oneDoorRooms.Contains(tab[x, y]))
-						//{
-						//	// Salle de boss
-
-						//	// Salle du trésort
-
-						//	// Shop de dernier recours
-						//}
 					}
 					else //Starting Room
 					{
 						GameObject roomType = Instantiate(roomTypes[0], new Vector3((x - origineX) * 28, 0, (y - origineY) * 28), Quaternion.identity);
 						roomType.transform.SetParent(tile.transform);
+						currentRoom.containReward = false;
 					}
 				}
 			}
 		}
+		
+		//Portal Room
+		int randomPortalRoom = UnityEngine.Random.Range(0, oneDoorRooms.Count - 1);
+		
+		foreach (Transform child in oneDoorRooms[randomPortalRoom].transform)
+		{
+			if (child.CompareTag("Room"))
+			{
+				Destroy(child.gameObject);
+			}
+		}
+
+		GameObject room = Instantiate(roomTypes[3], new Vector3((xOneDoorRooms[randomPortalRoom] - origineX) * 28, 0, (yOneDoorRooms[randomPortalRoom] - origineY) * 28), Quaternion.identity);
+		room.transform.SetParent(oneDoorRooms[randomPortalRoom].transform);
+		currentRoom.containReward = false;
 	}
 
-	public void GenerateEnnemies(Transform room)
+	public void GenerateEnnemies(Transform room, Room currentRoom)
 	{
 		int randomEnnemy = UnityEngine.Random.Range(0, ennemies.Count() - 1);
+		currentRoom.ennemies = new EnnemyData[] { ennemies[randomEnnemy].GetComponent<Ennemy>().ennemyData };
 
 		for (int i = 0; i < room.transform.childCount; i++)
 		{
 			if (room.transform.GetChild(i).gameObject.name.Contains("EnnemiesContainer"))
 			{
 				ennemiesContainer = room.transform.GetChild(i).gameObject;
+				currentRoom.ennemiesContainer = ennemiesContainer;
 			}
 		}
 
@@ -227,6 +262,14 @@ public class DungeonGenerator : MonoBehaviour
 			{
 				GameObject ennemy = Instantiate(ennemies[randomEnnemy], room.transform.GetChild(i).transform);
 				ennemy.transform.SetParent(ennemiesContainer.transform);
+
+				foreach (var roomEnnemy in currentRoom.ennemies)
+				{
+					if (roomEnnemy == ennemy)
+					{
+
+					}
+				}
 			}
 		}
 	}

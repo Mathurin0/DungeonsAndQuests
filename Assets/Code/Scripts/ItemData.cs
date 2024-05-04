@@ -6,6 +6,7 @@ public class ItemData : ScriptableObject
     public string itemName;
     public string description;
     public int stackAmount;
+    public int price;
     public Sprite visual;
     public GameObject prefab;
 

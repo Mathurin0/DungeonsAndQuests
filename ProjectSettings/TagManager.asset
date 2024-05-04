@@ -6,6 +6,8 @@ TagManager:
   tags:
   - OneDoorRoom
   - Item
+  - Ennemy
+  - Room
   layers:
   - Default
   - TransparentFX

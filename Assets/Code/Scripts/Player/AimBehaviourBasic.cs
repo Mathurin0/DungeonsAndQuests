@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Except the Attack() method, this code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // AimBehaviour inherits from GenericBehaviour. This class corresponds to aim and strafe behaviour.
 public class AimBehaviourBasic : GenericBehaviour
 {
@@ -9,9 +14,15 @@ public class AimBehaviourBasic : GenericBehaviour
 	public float aimTurnSmoothing = 0.15f;                                // Speed of turn response when aiming to match camera facing.
 	public Vector3 aimPivotOffset = new Vector3(0.5f, 1.2f,  0f);         // Offset to repoint the camera when aiming.
 	public Vector3 aimCamOffset   = new Vector3(0f, 0.4f, -0.7f);         // Offset to relocate the camera when aiming.
+	public bool attacking = false;
 
 	private int aimBool;                                                  // Animator variable related to aiming.
-	private bool aim;                                                     // Boolean to determine whether or not the player is aiming.
+	private bool aim;
+	private RaycastHit hit;
+	private int ennemiesLayerMask = 7;
+	public float raycastDistance = 2f;
+	public Animator playerAnimator;
+	// Boolean to determine whether or not the player is aiming.
 
 	// Start is always called after any Awake functions.
 	void Start ()
@@ -23,14 +34,10 @@ public class AimBehaviourBasic : GenericBehaviour
 	// Update is used to set features regardless the active behaviour.
 	void Update ()
 	{
-		// Activate/deactivate aim by input.
-		if (Input.GetAxisRaw(aimButton) != 0 && !aim)
+		// Attaque
+		if (Input.GetMouseButton(0) && !attacking && SceneManager.GetActiveScene().name == "Dungeon")
 		{
-			StartCoroutine(ToggleAimOn());
-		}
-		else if (aim && Input.GetAxisRaw(aimButton) == 0)
-		{
-			StartCoroutine(ToggleAimOff());
+			StartCoroutine(Attack());
 		}
 
 		// No sprinting while aiming.
@@ -45,6 +52,27 @@ public class AimBehaviourBasic : GenericBehaviour
 
 		// Set aim boolean on the Animator Controller.
 		behaviourManager.GetAnim.SetBool (aimBool, aim);
+	}
+
+	public IEnumerator Attack()
+	{
+		attacking = true;
+		playerAnimator.SetTrigger("Attack");
+		if (Physics.Raycast((gameObject.transform.position + new Vector3(0, 1, 0)), transform.forward, out hit, raycastDistance))
+		{
+			// Check if the ray hit an object with a collider
+			if (hit.collider.CompareTag("Ennemy"))
+			{
+				hit.collider.GetComponent<Ennemy>().ennemyHealth -= 20;
+				if (hit.collider.GetComponent<Ennemy>().ennemyHealth <= 0)
+				{
+					Destroy(hit.transform.gameObject);
+				}
+			}
+		}
+		yield return new WaitForSeconds((float).5);
+		attacking = false;
+		playerAnimator.ResetTrigger("Attack");
 	}
 
 	// Co-rountine to start aiming mode with delay.

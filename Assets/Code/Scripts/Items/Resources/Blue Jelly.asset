@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e40e191480c20a46942a9303fe68f24, type: 3}
+  m_Name: Blue Jelly
+  m_EditorClassIdentifier: 
+  itemName: Blue Jelly
+  description: It's wobbling !
+  stackAmount: 64
+  price: 10
+  visual: {fileID: 21300000, guid: 7ec4764e83fdd9e429338c3b6233dcfb, type: 3}
+  prefab: {fileID: 2258770514984229486, guid: d131221773f6cfa42a78c5b81793e53d, type: 3}
+  itemType: 0
+  armorType: 6
