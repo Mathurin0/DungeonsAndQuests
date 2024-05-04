@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // FlyBehaviour inherits from GenericBehaviour. This class corresponds to the flying behaviour.
 public class FlyBehaviour : GenericBehaviour
 {

@@ -3,6 +3,9 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Except the Attack() method, this code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // AimBehaviour inherits from GenericBehaviour. This class corresponds to aim and strafe behaviour.
 public class AimBehaviourBasic : GenericBehaviour
 {

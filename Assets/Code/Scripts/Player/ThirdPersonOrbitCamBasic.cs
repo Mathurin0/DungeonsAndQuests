@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // This class corresponds to the 3rd person camera features.
 public class ThirdPersonOrbitCamBasic : MonoBehaviour 
 {

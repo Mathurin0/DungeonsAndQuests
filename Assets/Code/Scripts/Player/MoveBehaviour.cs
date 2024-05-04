@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This code was taken from an existing asset because I didn't want to waste time on mechanics I had already learned to implement. (TODO : remove this summary)
+/// </summary>
 // MoveBehaviour inherits from GenericBehaviour. This class corresponds to basic walk and run behaviour, it is the default behaviour.
 public class MoveBehaviour : GenericBehaviour
 {
